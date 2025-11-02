@@ -38,7 +38,7 @@ macro_rules! schema {
       $(.col(sea_query::ColumnDef::new($table::$col)$(.$($col_tt)*)*)
       )*
       .build(sea_query::PostgresQueryBuilder), sqlx::postgres::PgArguments::default())
-      .execute($crate::get_pg()?).await?;
+      .execute($crate::pg()?).await?;
       )*
       Ok(())
     }
