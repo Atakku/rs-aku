@@ -16,7 +16,7 @@ macro_rules! get_env {
 macro_rules! once_cell {
   (async |$vis:vis $name:ident: $ty:ty | $block:block) => {
     $crate::paste::paste! {
-      static [<$name:upper>]: tokio::sync::OnceCell<$ty> = tokio::sync::OnceCell::const_new();
+      static [<$name:upper>]: tokio::sync::OnceCell<$ty> = $crate::tokio::sync::OnceCell::const_new();
 
       #[allow(unused)]
       $vis async fn [<get_$name>]() -> &'static $ty {

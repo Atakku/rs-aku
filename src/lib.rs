@@ -2,32 +2,12 @@
 //
 // This project is dual licensed under MIT and Apache.
 
+use aku_core::R;
 
-mod macros;
-
-pub type Err = Box<dyn std::error::Error + Send + Sync + 'static>;
-pub type Res<T> = Result<T, Err>;
-pub type R = Res<()>;
-
-pub use paste;
-
-use_mod!(
-  mod extensions {
-    mod iteratable;
-    mod system_time;
-  }
-);
-
-// TODO: Allow use_mod macro to parse attributes
-mod features {
+pub async fn init() -> R {
+  #[cfg(feature = "cron")]
+  aku_cron::init().await?;
   #[cfg(feature = "postgres")]
-  crate::use_mod!(
-    mod postgres {
-      mod pool;
-      mod query;
-      mod schema;
-    }
-  );
+  aku_postgres::init().await?;
+  Ok(())
 }
-#[allow(unused)]
-pub use features::*;

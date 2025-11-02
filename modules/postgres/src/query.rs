@@ -2,7 +2,7 @@
 //
 // This project is dual licensed under MIT and Apache.
 
-use crate::Res;
+use aku_core::*;
 use sea_query::{
   DeleteStatement, InsertStatement, PostgresQueryBuilder, SelectStatement, UpdateStatement,
 };
@@ -25,22 +25,22 @@ macro_rules! impl_ext {
 
         async fn execute(&self) -> Res<PgQueryResult> {
           let (q, v) = self.build_sqlx();
-          Ok(sqlx::query_with(&q, v).execute(crate::get_pg().await).await?)
+          Ok(sqlx::query_with(&q, v).execute($crate::get_pg()?).await?)
         }
 
         async fn fetch_one<T: Send + Unpin + for<'r> FromRow<'r, PgRow>>(&self) -> Res<T> {
           let (q, v) = self.build_sqlx();
-          Ok(sqlx::query_as_with(&q, v).fetch_one(crate::get_pg().await).await?)
+          Ok(sqlx::query_as_with(&q, v).fetch_one($crate::get_pg()?).await?)
         }
 
         async fn fetch_opt<T: Send + Unpin + for<'r> FromRow<'r, PgRow>>(&self) -> Res<Option<T>> {
           let (q, v) = self.build_sqlx();
-          Ok(sqlx::query_as_with(&q, v).fetch_optional(crate::get_pg().await).await?)
+          Ok(sqlx::query_as_with(&q, v).fetch_optional($crate::get_pg()?).await?)
         }
 
         async fn fetch_all<T: Send + Unpin + for<'r> FromRow<'r, PgRow>>(&self) -> Res<Vec<T>> {
           let (q, v) = self.build_sqlx();
-          Ok(sqlx::query_as_with(&q, v).fetch_all(crate::get_pg().await).await?)
+          Ok(sqlx::query_as_with(&q, v).fetch_all($crate::get_pg()?).await?)
         }
       }
     }
