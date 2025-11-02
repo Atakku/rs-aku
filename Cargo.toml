@@ -31,7 +31,6 @@ aku_cron = { workspace = true, optional = true }
 aku_poise = { workspace = true, optional = true }
 aku_postgres = { workspace = true, optional = true }
 futures.workspace = true
-tokio = { workspace = true, features = ["full"] }
 
 [workspace.dependencies]
 aku_core.path = "core"
