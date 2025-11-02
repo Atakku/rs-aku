@@ -22,7 +22,7 @@ pub const EVERY_6_HOUR: &str = "0 0 */6 * * *";
 pub const EVERY_12_HOUR: &str = "0 0 */12 * * *";
 pub const EVERY_1_DAY: &str = "0 0 0 * * *";
 
-pub async fn add_job<F>(shed: impl Into<String>, run: fn() -> F) -> R
+pub async fn cron_job<F>(shed: impl Into<String>, run: fn() -> F) -> R
 where F: Future<Output = R> + Send + 'static {
   cron()
     .add(Job::new_async(shed.into(), move |_, _| {

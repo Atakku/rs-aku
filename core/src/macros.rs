@@ -16,29 +16,27 @@ macro_rules! get_env {
 macro_rules! once_lock {
   (|$vis:vis $name:ident: $ty:ty| $block:block) => {
     $crate::paste::paste! {
-      static [<$name:upper>]: std::sync::OnceLock<$ty> = std::sync::OnceLock::new();
-
       #[allow(unused)]
       $vis async fn [<init_$name>]() -> $crate::R {
         [<$name:upper>].set($block);
         Ok(())
       }
-
-      #[allow(unused)]
-      $vis fn [<$name>]() -> &'static $ty {
-        [<$name:upper>].get().expect(concat!("Called 'get_", stringify!($name), "' before 'init_", stringify!($name), "'"))
-      }
     }
+    once_lock!(@internal $vis, $name, $ty);
   };
   ($vis:vis $name:ident: $ty:ty) => {
     $crate::paste::paste! {
-      static [<$name:upper>]: std::sync::OnceLock<$ty> = std::sync::OnceLock::new();
-
       #[allow(unused)]
       $vis async fn [<init_$name>](val: $ty) -> $crate::R {
         [<$name:upper>].set(val);
         Ok(())
       }
+    }
+    once_lock!(@internal $vis, $name, $ty);
+  };
+  (@internal $vis:vis, $name:ident, $ty:ty) => {
+    $crate::paste::paste! {
+      static [<$name:upper>]: std::sync::OnceLock<$ty> = std::sync::OnceLock::new();
 
       #[allow(unused)]
       $vis fn [<$name>]() -> &'static $ty {
@@ -47,8 +45,6 @@ macro_rules! once_lock {
     }
   };
 }
-
-
 
 
 #[macro_export]

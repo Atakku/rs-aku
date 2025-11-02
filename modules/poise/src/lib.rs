@@ -25,6 +25,11 @@ use_mod!(
   mod events;
 );
 
+#[cfg(feature = "postgres")]
+use_mod!(
+  mod snowflake;
+);
+
 use std::sync::Once;
 
 pub static X: std::sync::LazyLock<Mutex<Vec<String>>> = std::sync::LazyLock::new(|| Mutex::new(vec![]));

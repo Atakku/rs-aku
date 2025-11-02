@@ -21,7 +21,7 @@ license.workspace = true
 axum = ["dep:aku_axum"]
 cron = ["dep:aku_cron"]
 poise = ["dep:aku_poise"]
-postgres = ["dep:aku_postgres"]
+postgres = ["dep:aku_postgres", "aku_poise/postgres"]
 runtime = []
 
 [dependencies]
