@@ -2,7 +2,15 @@
 //
 // This project is dual licensed under MIT and Apache.
 
-use aku_core::R;
+#![allow(unused)]
+
+pub use aku_core::*;
+#[cfg(feature = "axum")]
+pub use aku_axum::*;
+#[cfg(feature = "cron")]
+pub use aku_cron::*;
+#[cfg(feature = "postgres")]
+pub use aku_postgres::*;
 
 pub async fn init() -> R {
   #[cfg(feature = "cron")]
