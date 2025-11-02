@@ -25,22 +25,22 @@ macro_rules! impl_ext {
 
         async fn execute(&self) -> Res<PgQueryResult> {
           let (q, v) = self.build_sqlx();
-          Ok(sqlx::query_with(&q, v).execute($crate::get_pg()?).await?)
+          Ok(sqlx::query_with(&q, v).execute($crate::pg()).await?)
         }
 
         async fn fetch_one<T: Send + Unpin + for<'r> FromRow<'r, PgRow>>(&self) -> Res<T> {
           let (q, v) = self.build_sqlx();
-          Ok(sqlx::query_as_with(&q, v).fetch_one($crate::get_pg()?).await?)
+          Ok(sqlx::query_as_with(&q, v).fetch_one($crate::pg()).await?)
         }
 
         async fn fetch_opt<T: Send + Unpin + for<'r> FromRow<'r, PgRow>>(&self) -> Res<Option<T>> {
           let (q, v) = self.build_sqlx();
-          Ok(sqlx::query_as_with(&q, v).fetch_optional($crate::get_pg()?).await?)
+          Ok(sqlx::query_as_with(&q, v).fetch_optional($crate::pg()).await?)
         }
 
         async fn fetch_all<T: Send + Unpin + for<'r> FromRow<'r, PgRow>>(&self) -> Res<Vec<T>> {
           let (q, v) = self.build_sqlx();
-          Ok(sqlx::query_as_with(&q, v).fetch_all($crate::get_pg()?).await?)
+          Ok(sqlx::query_as_with(&q, v).fetch_all($crate::pg()).await?)
         }
       }
     }

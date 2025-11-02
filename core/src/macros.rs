@@ -13,24 +13,20 @@ macro_rules! get_env {
 }
 
 #[macro_export]
-macro_rules! once_cell {
-  (async |$vis:vis $name:ident: $ty:ty | $block:block) => {
-    $crate::paste::paste! {
-      static [<$name:upper>]: tokio::sync::OnceCell<$ty> = tokio::sync::OnceCell::const_new();
-
-      #[allow(unused)]
-      $vis async fn [<get_$name>]() -> &'static $ty {
-        [<$name:upper>].get_or_init(|| async $block).await
-      }
-    }
-  };
-  (|$vis:vis $name:ident: $ty:ty | $block:block) => {
+macro_rules! once_lock {
+  (|$vis:vis $name:ident: $ty:ty| $block:block) => {
     $crate::paste::paste! {
       static [<$name:upper>]: std::sync::OnceLock<$ty> = std::sync::OnceLock::new();
 
       #[allow(unused)]
-      $vis fn [<get_$name>]() -> &'static $ty {
-        [<$name:upper>].get_or_init(|| $block)
+      $vis async fn [<init_$name>]() -> $crate::R {
+        [<$name:upper>].set($block);
+        Ok(())
+      }
+
+      #[allow(unused)]
+      $vis fn [<$name>]() -> &'static $ty {
+        [<$name:upper>].get().expect(concat!("Called 'get_", stringify!($name), "' before 'init_", stringify!($name), "'"))
       }
     }
   };
@@ -39,13 +35,14 @@ macro_rules! once_cell {
       static [<$name:upper>]: std::sync::OnceLock<$ty> = std::sync::OnceLock::new();
 
       #[allow(unused)]
-      fn [<init_$name>]($name: $ty) {
-        let _ = [<$name:upper>].set($name);
+      $vis async fn [<init_$name>](val: $ty) -> $crate::R {
+        [<$name:upper>].set(val);
+        Ok(())
       }
 
       #[allow(unused)]
-      $vis fn [<get_$name>]() -> $crate::Res<&'static $ty> {
-        Ok([<$name:upper>].get().ok_or(concat!("Called 'get_", stringify!($name), "' before 'init_", stringify!($name), "'"))?)
+      $vis fn [<$name>]() -> &'static $ty {
+        [<$name:upper>].get().expect(concat!("Called 'get_", stringify!($name), "' before 'init_", stringify!($name), "'"))
       }
     }
   };

@@ -4,7 +4,9 @@
 
 use sqlx::{PgPool, postgres::PgPoolOptions};
 
-once_cell!(pub pg: PgPool);
+once_lock!(|pub pg: PgPool| {
+  PgPoolOptions::default().connect(&get_env!("DATABASE_URL")).await?
+});
 
 use_mod!(
   mod query;
@@ -12,8 +14,3 @@ use_mod!(
 );
 
 pub use aku_core::*;
-
-pub async fn init() -> R {
-  init_pg(PgPoolOptions::default().connect(&get_env!("DATABASE_URL")).await?);
-  Ok(())
-}

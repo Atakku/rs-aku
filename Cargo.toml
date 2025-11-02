@@ -18,20 +18,26 @@ edition.workspace = true
 license.workspace = true
 
 [features]
-cron = ["dep:aku_cron"]
 axum = ["dep:aku_axum"]
+cron = ["dep:aku_cron"]
+poise = ["dep:aku_poise"]
 postgres = ["dep:aku_postgres"]
+runtime = []
 
 [dependencies]
 aku_core = { workspace = true }
 aku_axum = { workspace = true, optional = true }
 aku_cron = { workspace = true, optional = true }
+aku_poise = { workspace = true, optional = true }
 aku_postgres = { workspace = true, optional = true }
+futures.workspace = true
+tokio = { workspace = true, features = ["full"] }
 
 [workspace.dependencies]
 aku_core.path = "core"
 aku_axum.path = "modules/axum"
 aku_cron.path = "modules/cron"
+aku_poise.path = "modules/poise"
 aku_postgres.path = "modules/postgres"
 
 paste = "^1.0"
@@ -42,3 +48,11 @@ sea-query-binder = { version = "^0.7", features = ["sqlx-postgres"] }
 tokio = "^1.48"
 tokio-cron-scheduler = "^0.15"
 futures = "^0.3"
+poise = "0.6.1"
+log = "^0.4"
+
+[patch.crates-io]
+poise = { git = "https://github.com/serenity-rs/poise", rev = "fe2f25097166e1e7fb56f341cbad9a2bc771a931" }
+
+[patch.'https://github.com/serenity-rs/serenity']
+serenity = { git = "https://github.com/atakku/rs-serenity", rev = "3009d22082cadab93e0f463e9d9868b656cd62bc" }

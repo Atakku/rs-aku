@@ -3,13 +3,11 @@
 # This project is dual licensed under MIT and Apache.
 
 [package]
-name = "aku_cron"
+name = "aku_poise"
 version.workspace = true
 edition.workspace = true
 license.workspace = true
 
 [dependencies]
 aku_core.workspace = true
-tokio-cron-scheduler.workspace = true
-futures.workspace = true
-log.workspace = true
+poise.workspace = true
