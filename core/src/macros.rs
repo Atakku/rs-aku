@@ -48,6 +48,48 @@ macro_rules! once_lock {
   };
 }
 
+
+
+
+#[macro_export]
+macro_rules! once_cell {
+  (async |$vis:vis $name:ident: $ty:ty | $block:block) => {
+    $crate::paste::paste! {
+      static [<$name:upper>]: tokio::sync::OnceCell<$ty> = tokio::sync::OnceCell::const_new();
+
+      #[allow(unused)]
+      $vis async fn [<get_$name>]() -> &'static $ty {
+        [<$name:upper>].get_or_init(|| async $block).await
+      }
+    }
+  };
+  (|$vis:vis $name:ident: $ty:ty | $block:block) => {
+    $crate::paste::paste! {
+      static [<$name:upper>]: std::sync::OnceLock<$ty> = std::sync::OnceLock::new();
+
+      #[allow(unused)]
+      $vis fn [<get_$name>]() -> &'static $ty {
+        [<$name:upper>].get_or_init(|| $block)
+      }
+    }
+  };
+  ($vis:vis $name:ident: $ty:ty) => {
+    $crate::paste::paste! {
+      static [<$name:upper>]: std::sync::OnceLock<$ty> = std::sync::OnceLock::new();
+
+      #[allow(unused)]
+      fn [<init_$name>]($name: $ty) {
+        let _ = [<$name:upper>].set($name);
+      }
+
+      #[allow(unused)]
+      $vis fn [<get_$name>]() -> $crate::Res<&'static $ty> {
+        Ok([<$name:upper>].get().ok_or(concat!("Called 'get_", stringify!($name), "' before 'init_", stringify!($name), "'"))?)
+      }
+    }
+  };
+}
+
 #[macro_export]
 macro_rules! use_mod {
   ($($(#[$export:ident])? mod $ident:ident$({$($tt:tt)*})?$(;)?)*) => {$(
