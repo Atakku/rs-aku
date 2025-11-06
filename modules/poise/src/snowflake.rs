@@ -4,7 +4,7 @@
 
 use poise::serenity_prelude::all::*;
 use sea_query::SimpleExpr;
-use sqlx::{Database, Decode, Encode, Type, Value, postgres::PgValue};
+use sqlx::{Database, Decode, Encode, Type};
 use std::fmt;
 
 #[derive(Decode, Encode, Debug)]

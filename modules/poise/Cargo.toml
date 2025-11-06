@@ -9,7 +9,7 @@ edition.workspace = true
 license.workspace = true
 
 [features]
-postgres = ["dep:sqlx"]
+postgres = ["dep:sqlx", "dep:sea-query"]
 
 [dependencies]
 aku_core.workspace = true
