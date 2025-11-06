@@ -3,7 +3,8 @@
 // This project is dual licensed under MIT and Apache.
 
 use poise::serenity_prelude::all::*;
-use sqlx::{Database, Decode, Encode, Type};
+use sea_query::SimpleExpr;
+use sqlx::{Database, Decode, Encode, Type, Value, postgres::PgValue};
 use std::fmt;
 
 #[derive(Decode, Encode, Debug)]
@@ -21,6 +22,12 @@ where i64: sqlx::Type<DB>
   #[inline]
   fn type_info() -> DB::TypeInfo {
     i64::type_info()
+  }
+}
+
+impl Into<SimpleExpr> for Snowflake {
+  fn into(self) -> SimpleExpr {
+    self.0.into()
   }
 }
 
