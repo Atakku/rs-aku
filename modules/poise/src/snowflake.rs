@@ -4,9 +4,16 @@
 
 use poise::serenity_prelude::all::*;
 use sqlx::{Database, Decode, Encode, Type};
+use std::fmt;
 
 #[derive(Decode, Encode, Debug)]
 pub struct Snowflake(pub(crate) i64);
+
+impl fmt::Display for Snowflake {
+  fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+    self.0.fmt(f)
+  }
+}
 
 impl<DB: Database> Type<DB> for Snowflake
 where i64: sqlx::Type<DB>
