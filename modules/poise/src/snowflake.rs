@@ -8,7 +8,7 @@ use sqlx::{Database, Decode, Encode, Type};
 use std::fmt;
 
 #[derive(Decode, Encode, Debug)]
-pub struct Snowflake(pub(crate) i64);
+pub struct Snowflake(pub i64);
 
 impl fmt::Display for Snowflake {
   fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
