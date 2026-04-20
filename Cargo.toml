@@ -20,7 +20,7 @@ license.workspace = true
 [features]
 axum = ["dep:aku_axum"]
 cron = ["dep:aku_cron"]
-postgres = ["dep:aku_postgres", "aku_poise/postgres"]
+postgres = ["dep:aku_postgres"]
 runtime = []
 
 [dependencies]
