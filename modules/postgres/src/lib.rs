@@ -2,6 +2,7 @@
 //
 // This project is dual licensed under MIT and Apache.
 
+use aku_core::*;
 use sqlx::{PgPool, postgres::PgPoolOptions};
 
 once_lock!(|pub pg: PgPool| {
@@ -13,4 +14,3 @@ use_mod!(
   mod schema;
 );
 
-pub use aku_core::*;

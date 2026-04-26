@@ -1,0 +1,18 @@
+# Copyright 2025 Atakku <https://atakku.dev>
+#
+# This project is dual licensed under MIT and Apache.
+
+[package]
+name = "aku_serenity"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[features]
+postgres = ["dep:sqlx", "dep:sea-query"]
+
+[dependencies]
+aku_core.workspace = true
+serenity.workspace = true
+sqlx = { workspace = true, optional = true }
+sea-query = { workspace = true, optional = true }
