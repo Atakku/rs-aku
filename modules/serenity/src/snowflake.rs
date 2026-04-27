@@ -7,7 +7,7 @@ use sea_query::SimpleExpr;
 use sqlx::{Database, Decode, Encode, Type};
 use std::fmt;
 
-#[derive(Decode, Encode, Debug)]
+#[derive(Decode, Encode, Debug, Clone, Copy)]
 pub struct Snowflake(pub i64);
 
 impl fmt::Display for Snowflake {
