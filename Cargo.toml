@@ -22,6 +22,7 @@ axum = ["dep:aku_axum"]
 cron = ["dep:aku_cron"]
 postgres = ["dep:aku_postgres", "aku_serenity/postgres"]
 serenity = ["dep:aku_serenity"]
+fluxer = ["dep:aku_fluxer"]
 runtime = []
 
 [dependencies]
@@ -30,6 +31,7 @@ aku_axum = { workspace = true, optional = true }
 aku_cron = { workspace = true, optional = true }
 aku_postgres = { workspace = true, optional = true }
 aku_serenity = { workspace = true, optional = true }
+aku_fluxer = { workspace = true, optional = true }
 futures.workspace = true
 
 [workspace.dependencies]
@@ -38,6 +40,7 @@ aku_axum.path = "modules/axum"
 aku_cron.path = "modules/cron"
 aku_postgres.path = "modules/postgres"
 aku_serenity.path = "modules/serenity"
+aku_fluxer.path = "modules/fluxer"
 
 paste = "^1.0"
 extend = "^1.2"
@@ -49,3 +52,4 @@ tokio-cron-scheduler = "^0.15"
 futures = "^0.3"
 serenity = "^0.12"
 log = "^0.4"
+fluxer-neptunium = "^0.8"
