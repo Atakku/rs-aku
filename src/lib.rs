@@ -13,8 +13,10 @@ pub use aku_axum::*;
 pub use aku_cron::*;
 #[cfg(feature = "postgres")]
 pub use aku_postgres::*;
-#[cfg(feature = "serenity")]
+#[cfg(all(feature = "serenity", not(feature = "fluxer")))]
 pub use aku_serenity::*;
+#[cfg(all(feature = "fluxer", not(feature = "serenity")))]
+pub use aku_fluxer::*;
 
 static RT: LazyLock<Mutex<Runtime>> = LazyLock::new(|| Mutex::default());
 
