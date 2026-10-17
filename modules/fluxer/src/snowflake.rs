@@ -3,7 +3,7 @@
 // This project is dual licensed under MIT and Apache.
 
 use fluxer_neptunium::model::id::{Id, marker::IdMarker};
-use sea_query::SimpleExpr;
+use sea_query::{Nullable, SimpleExpr, Value};
 use sqlx::{Database, Decode, Encode, Type};
 use std::fmt;
 
@@ -22,6 +22,12 @@ where i64: sqlx::Type<DB>
   #[inline]
   fn type_info() -> DB::TypeInfo {
     i64::type_info()
+  }
+}
+
+impl Nullable for Snowflake {
+  fn null() -> Value {
+    <i64 as Nullable>::null()
   }
 }
 
