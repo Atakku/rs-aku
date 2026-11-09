@@ -46,10 +46,9 @@ macro_rules! once_lock {
   };
 }
 
-
 #[macro_export]
 macro_rules! once_cell {
-  (async |$vis:vis $name:ident: $ty:ty | $block:block) => {
+  (async | $vis:vis $name:ident : $ty:ty | $block:block) => {
     $crate::paste::paste! {
       static [<$name:upper>]: tokio::sync::OnceCell<$ty> = tokio::sync::OnceCell::const_new();
 
@@ -59,7 +58,7 @@ macro_rules! once_cell {
       }
     }
   };
-  (|$vis:vis $name:ident: $ty:ty | $block:block) => {
+  (| $vis:vis $name:ident : $ty:ty | $block:block) => {
     $crate::paste::paste! {
       static [<$name:upper>]: std::sync::OnceLock<$ty> = std::sync::OnceLock::new();
 
@@ -69,7 +68,7 @@ macro_rules! once_cell {
       }
     }
   };
-  ($vis:vis $name:ident: $ty:ty) => {
+  ($vis:vis $name:ident : $ty:ty) => {
     $crate::paste::paste! {
       static [<$name:upper>]: std::sync::OnceLock<$ty> = std::sync::OnceLock::new();
 

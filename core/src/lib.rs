@@ -15,5 +15,5 @@ use_mod!(
   }
 );
 
-pub use paste;
 pub use extend;
+pub use paste;
