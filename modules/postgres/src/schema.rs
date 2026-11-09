@@ -31,7 +31,7 @@ macro_rules! schema {
 
     pub async fn init_tables() -> $crate::R {
       $(
-        sqlx::query_with(sqlx::AssertSqlSafe(&sea_query::Table::create()
+        sqlx::query_with(sqlx::AssertSqlSafe(sea_query::Table::create()
         .if_not_exists()
         .table($table::Table)
       $(.$($table_tt)*)*
