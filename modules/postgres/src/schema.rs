@@ -31,13 +31,13 @@ macro_rules! schema {
 
     pub async fn init_tables() -> $crate::R {
       $(
-        sqlx::query_with(&sea_query::Table::create()
+        sqlx::query_with(AssertSqlSafe(&sea_query::Table::create()
         .if_not_exists()
         .table($table::Table)
       $(.$($table_tt)*)*
       $(.col(sea_query::ColumnDef::new($table::$col)$(.$($col_tt)*)*)
       )*
-      .build(sea_query::PostgresQueryBuilder), sqlx::postgres::PgArguments::default())
+      .build(sea_query::PostgresQueryBuilder)), sqlx::postgres::PgArguments::default())
       .execute($crate::pg()).await?;
       )*
       Ok(())
